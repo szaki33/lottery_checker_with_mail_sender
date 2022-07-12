@@ -12,12 +12,15 @@ receiver_email = "receiver@server.com"
 # Enter your password when prompted
 password = input("Type your password and press enter: ")
 
+possible_hits = [[2, 1], [1, 2], [3, 0], [3, 1], [2, 2], [4, 0],
+                 [3, 2], [4, 1], [4, 2], [5, 0], [5, 1], [5, 2]]
 
-def send_ej_numbers(nums, win):
+
+def send_ej_numbers(nums, hits):
     try:
         context = ssl.create_default_context()
         msg = EmailMessage()
-        if win:
+        if hits in possible_hits:
             msg['Subject'] = "Eurojackpot WIIIIIIIN"
         else:
             msg['Subject'] = "Eurojackpot"
@@ -25,6 +28,7 @@ def send_ej_numbers(nums, win):
         msg['To'] = receiver_email
         nums_s = ""
         nums_s += create_string_from_list(nums)
+        nums_s += "\n" + str(hits[0]) + "+" + str(hits[1])
         msg.set_content(nums_s)
         with smtplib.SMTP(smtp_server, port) as server:
             server.ehlo()

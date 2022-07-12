@@ -1,6 +1,5 @@
 from urllib.request import urlopen
 from mail import send_ej_numbers
-
 from bs4 import BeautifulSoup
 
 # url where we can find the numbers
@@ -15,17 +14,22 @@ x = soup.body.find('ul', attrs={'id': 'results'}).text
 our_nums = [2, 9, 11, 30, 42, 2, 7]
 nums = []
 num = 0
-
 length = 0
 used_before = False
 
 
 # function to check if we won the EJ
 def check_if_we_won(lottery_numbers, our_numbers):
-    if lottery_numbers == our_numbers:
-        return True
-    else:
-        return False
+    hits = [0, 0]
+    first = lottery_numbers[:5]
+    second = lottery_numbers[5:]
+    for i in range(0, 4):
+        if our_numbers[i] in first:
+            hits[0] += 1
+    for i in range(0, 1):
+        if our_numbers[i] in second:
+            hits[1] += 1
+    return hits
 
 
 # for cykle to get numbers
